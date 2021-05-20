@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NASA Picture of the Day</title>
+  </head>
+  <body>
+   
+
+    <h1 id="title"></h1>
+    <input type="date" id="input" value="">
+    <h3 id="fecha"></h3>
+    <p id="detalle"></p>
+    <img id="image" />
+
+    <script>
+      
+      const imgPicture = document.getElementById("image");
+      const h1Title = document.getElementById("title");
+      const h3Date = document.getElementById("fecha");
+      const explanation = document.getElementById("detalle");
+      const input = document.getElementById("input");
+
+      input.addEventListener("change", function () {
+        // Enviar un request GET a https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY
+        // y recibir la respuesta
+        const xhr = new XMLHttpRequest();
+        
+        xhr.addEventListener("load", function () {
+          const response = JSON.parse(xhr.responseText);
+          
+          imgPicture.src = response.url;
+          h1Title.textContent = response.title;
+          h3Date.textContent = response.date;
+          explanation.textContent = response.explanation;
+          console.log(xhr);
+          console.log(input)
+        });
+        
+        xhr.open("GET", `https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=${input.value}`);
+        xhr.send();
+      });
+    </script>
+
+  </body>
+</html>
